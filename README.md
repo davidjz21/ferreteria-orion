@@ -1,6 +1,6 @@
 ## Descripción
 
-**Ferretería Antillana** es una aplicación web de gestión de inventario que permite administrar los artículos de una ferretería mediante una **API REST** construida con Spring Boot. Incluye una interfaz web SPA (Single Page Application) para realizar operaciones CRUD de forma intuitiva.
+**Ferretería Orion** es una aplicación web de gestión de inventario que permite administrar los artículos de una ferretería mediante una **API REST** construida con Spring Boot. Incluye una interfaz web SPA (Single Page Application) para realizar operaciones CRUD de forma intuitiva.
 
 El sistema cuenta con autenticación y autorización de usuarios mediante **Spring Security** con roles (`ADMIN`, `USER`) y contraseñas cifradas con **BCrypt**.
 
