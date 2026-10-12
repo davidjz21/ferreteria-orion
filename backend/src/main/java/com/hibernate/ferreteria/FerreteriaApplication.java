@@ -22,7 +22,7 @@ public class FerreteriaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("aplicacion iniciada correctamente");
-		List<Articulos>articulos = repositorio.findAll();
+		List<Articulos> articulos = repositorio.findAll();
 		articulos.stream().forEach(System.out::println);
 	}
 }
