@@ -1,0 +1,122 @@
+:root {
+  --orion-orange: #ea580c;
+  --orion-orange-hover: #c2410c;
+  --orion-orange-light: #fff7ed;
+  --orion-orange-border: #fed7aa;
+}
+
+.navbar-orion {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+  border-bottom: 3px solid #c2410c;
+}
+
+.card-orion {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1px solid var(--orion-orange-border);
+  border-left: 4px solid var(--orion-orange);
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.btn-orion {
+  background-color: var(--orion-orange);
+  border-color: var(--orion-orange);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-orion:hover, .btn-orion:focus {
+  background-color: var(--orion-orange-hover);
+  border-color: var(--orion-orange-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(234, 88, 12, 0.25);
+}
+
+.btn-outline-orion {
+  border: 1.5px solid var(--orion-orange);
+  color: var(--orion-orange);
+  background: transparent;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-outline-orion:hover {
+  background-color: var(--orion-orange);
+  color: #ffffff;
+}
+
+.table-orion {
+  margin-bottom: 0;
+}
+
+.table-orion thead th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--orion-orange-border);
+  padding: 14px 16px;
+}
+
+.table-orion tbody td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.table-orion tbody tr:hover {
+  background-color: #fffaf5;
+}
+
+.badge-stock-normal {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.badge-stock-low {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--orion-orange);
+  box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.2);
+}
+
+.modal-header-orion {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+  color: #ffffff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}

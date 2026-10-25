@@ -1,15 +1,13 @@
 package com.hibernate.ferreteria.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="articulos")
+@Table(name = "articulos")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 
 public class Articulos {
     @Id
@@ -26,17 +24,18 @@ public class Articulos {
     @Column(name = "existencia")
     private Integer existencia;
 
-
-    /* metodo por consola
-    @Override
-    public String toString() {
-        return "Articulo{"+
-               "id = " + id +
-                       ", Nombrearticulo: '" + nombreArticulo + '\''+
-                       ", precio: " + precio +
-                       ", existencia: "+ existencia +
-                       '}';
-
-    }
+    /*
+     * metodo por consola
+     * 
+     * @Override
+     * public String toString() {
+     * return "Articulo{"+
+     * "id = " + id +
+     * ", Nombrearticulo: '" + nombreArticulo + '\''+
+     * ", precio: " + precio +
+     * ", existencia: "+ existencia +
+     * '}';
+     * 
+     * }
      */
 }

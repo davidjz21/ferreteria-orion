@@ -1,65 +1,45 @@
-## Descripción
-
-**Ferretería Orion** es una aplicación web de gestión de inventario que permite administrar los artículos de una ferretería mediante una **API REST** construida con Spring Boot. Incluye una interfaz web SPA (Single Page Application) para realizar operaciones CRUD de forma intuitiva.
-
-El sistema cuenta con autenticación y autorización de usuarios mediante **Spring Security** con roles (`ADMIN`, `USER`) y contraseñas cifradas con **BCrypt**.
-
+# Ferretería Orion
+Aplicación web de gestión de inventario desarrollada con Spring Boot y React. Cuenta con una API REST para gestionar los artículos de una ferretería y una interfaz web interactiva que permite realizar operaciones CRUD (crear, consultar, actualizar y eliminar productos). Utiliza MySQL para el almacenamiento de datos.
 
 ## Tecnologías
 
-| Capa          | Tecnología                                    |
-|---------------|-----------------------------------------------|
-| **Lenguaje**  | Java 21                                       |
-| **Framework** | Spring Boot 3.3.4                             |
-| **ORM**       | Spring Data JPA / Hibernate                   |
-| **BD**        | MySQL 8                                       |
-| **Seguridad** | Spring Security (BCrypt, HTTP Basic)          |
-| **Build**     | Maven 3.9.12 (Wrapped)                        |
-| **Frontend**  | HTML + CSS + JavaScript (jQuery 3.6)          |
-| **Utilidades**| Lombok, SweetAlert2, Font Awesome 6           |
+### Backend
+| Componente | Tecnología | Versión |
+|---|---|---|
+| **Lenguaje** | Java (LTS) | 21 |
+| **Framework** | Spring Boot | 3.3.4 |
+| **Persistencia / ORM** | Spring Data JPA / Hibernate | MySQL8Dialect |
+| **Base de Datos** | MySQL | 8.x |
+| **Seguridad** | Spring Security | 6 (BCrypt, HTTP Basic) |
+| **Herramienta de Construcción** | Maven Wrapper | 3.9.x |
+| **Productividad** | Project Lombok | 1.18.42 |
 
-
-## Estructura del Proyecto
-
-```
-ferreteria/
-├── src/main/java/com/hibernate/ferreteria/
-│   ├── FerreteriaApplication.java          # Punto de entrada
-│   ├── controladores/
-│   │   └── ArticuloController.java         # Endpoints REST
-│   ├── dto/
-│   │   └── ArticulosDTO.java               # DTO de artículos
-│   ├── entity/
-│   │   ├── Articulos.java                  # Entidad: artículos
-│   │   └── Usuario.java                    # Entidad: usuarios
-│   ├── mapper/
-│   │   └── ArticuloMapper.java             # Mapper Entity ↔ DTO
-│   ├── repositorios/
-│   │   ├── Repo_articulos.java             # Repositorio artículos
-│   │   └── Repo_usuarios.java              # Repositorio usuarios
-│   ├── seguridad/
-│   │   └── SecurityConfig.java             # Config. Spring Security
-│   └── servicios/
-│       ├── ArticulosServices.java          # Lógica de negocio
-│       └── UsuarioServices.java            # UserDetailsService
-├── src/main/resources/
-│   ├── application.properties              # Configuración
-│   └── static/
-│       └── index.html                      # Frontend SPA
-└── pom.xml                                 # Dependencias
-```
+### Frontend Moderno (SPA)
+| Componente | Tecnología | Versión |
+|---|---|---|
+| **Librería UI** | React | 19.2.8 |
+| **Empaquetador / Bundler** | Vite | 8.3.0 |
+| **Framework CSS** | Bootstrap | 5.3.8 |
+| **Iconografía** | Lucide React | 1.55.0 |
+| **Alertas & Diálogos** | SweetAlert2 | 11.26.25 |
+| **Linter** | Oxlint | 1.81.0 |
 
 
 ## Requisitos Previos
 
-- **Java 21** (JDK)
-- **MySQL 8** corriendo en `localhost:3306`
-- **Maven 3.9+** (o usar el Maven Wrapper incluido)
+Asegúrate de tener instalados los siguientes componentes en tu entorno:
+
+- **Java Development Kit (JDK) 21**
+- **Node.js 18+** y **npm 9+**
+- **MySQL Server 8.x** activo en `localhost:3306`
+- **Git**
 
 
-## Instalación y Ejecución
+## Pasos a Ejecutar
 
-### 1. Crear la Base de Datos
+### 1. Configurar la Base de Datos MySQL
+
+Conéctate a tu servidor MySQL y ejecuta el siguiente script para crear la base de datos y el usuario con los permisos requeridos:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS db_ferreteria;
@@ -68,66 +48,79 @@ GRANT ALL PRIVILEGES ON db_ferreteria.* TO 'ferreteria_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-### 2. Clonar y Ejecutar
+> **Nota**: Las tablas (`articulos` y `usuarios`) se crearán automáticamente al iniciar la aplicación Spring Boot gracias a la propiedad `spring.jpa.generate-ddl=true`.
+
+---
+
+### 2. Iniciar el Backend (Spring Boot)
 
 ```bash
-git clone https://github.com/tu-usuario/ferreteria.git
-cd ferreteria
+cd backend
 
-# Compilar
+# Descargar dependencias y compilar
 ./mvnw clean install
 
-# Ejecutar
+# Iniciar el servidor en modo desarrollo (puerto 8080)
 ./mvnw spring-boot:run
 ```
 
-O ejecutar el JAR directamente:
+*(En Windows utiliza `mvnw.cmd`)*
+
+Si prefieres ejecutar el paquete JAR generado:
 
 ```bash
 java -jar target/ferreteria-0.0.1-SNAPSHOT.jar
 ```
 
-### 3. Acceder
-
-| Recurso            | URL                              |
-|--------------------|----------------------------------|
-| **Frontend (UI)**  | http://localhost:8080/            |
-| **API REST**       | http://localhost:8080/api/articulos |
-
-> Las tablas (`articulos`, `usuarios`) se crean automáticamente gracias a `spring.jpa.generate-ddl=true`.
+### 3. Iniciar el Frontend (React 19 + Vite)
 
 
+```bash
+cd frontend
 
-## Autenticación
+# Instalar dependencias
+npm install
 
-Usuarios por defecto configurados en `application.properties`:
+# Iniciar el servidor de desarrollo de Vite (puerto 5173)
+npm run dev
+```
 
-| Usuario | Contraseña                           | Rol  |
-|---------|--------------------------------------|------|
-| `user1` | `0ab8b5f3-1773-43ff-ae00-e18d5143c143` | USER |
+---
 
-También puedes registrar usuarios en la base de datos con roles `ADMIN` o `USER`. Las contraseñas deben cifrarse con **BCrypt**. Usa la clase `GeneraPass.java` para generar hashes.
+## Puntos de Acceso del Sistema
 
+| Módulo / Servicio | URL | Descripción |
+|---|---|---|
+| **Frontend Moderno (React SPA)** | [http://localhost:5173](http://localhost:5173) | Interfaz principal con panel de métricas, búsqueda y CRUD en tiempo real |
+| **API REST** | [http://localhost:8080/api/articulos](http://localhost:8080/api/articulos) | Endpoints de artículos |
+| **Frontend Clásico (Legacy)** | [http://localhost:8080/](http://localhost:8080/) | Interfaz estática clásica basada en jQuery servida por Spring Boot |
 
-## API REST
+---
 
-Base URL: `http://localhost:8080/api/articulos`
+## Catálogo de la API REST
 
-| Método | Endpoint              | Descripción             |
-|--------|-----------------------|-------------------------|
-| `GET`  | `/api/articulos`       | Listar todos los artículos |
-| `GET`  | `/api/articulos/{id}`  | Obtener artículo por ID |
-| `POST` | `/api/articulos`       | Crear un nuevo artículo |
-| `PUT`  | `/api/articulos/{id}`  | Actualizar un artículo  |
-| `DELETE`| `/api/articulos/{id}` | Eliminar un artículo    |
+**Base URL**: `http://localhost:8080/api/articulos`
 
-### Ejemplo de Cuerpo (JSON)
+| Método | Endpoint | Acceso / Roles | Descripción | Body Request (JSON) | Respuesta Éxito |
+|---|---|---|---|---|---|
+| `GET` | `/api/articulos` | Público | Obtener lista completa de artículos | *Ninguno* | `200 OK` (Array de artículos) |
+| `GET` | `/api/articulos/{id}` | Público | Obtener un artículo específico por ID | *Ninguno* | `200 OK` (Objeto artículo) |
+| `POST` | `/api/articulos` | `ADMIN` (HTTP Basic) | Registrar un nuevo artículo | `ArticulosDTO` | `200 OK` (Artículo creado) |
+| `PUT` | `/api/articulos/{id}` | `ADMIN` (HTTP Basic) | Actualizar un artículo existente | `ArticulosDTO` | `200 OK` (Artículo actualizado) |
+| `DELETE` | `/api/articulos/{id}` | `ADMIN` (HTTP Basic) | Eliminar un artículo por ID | *Ninguno* | `200 OK` ("articulo eliminado") |
 
+> **Credenciales de Administrador por defecto**:
+> - **Usuario**: `user1`
+> - **Contraseña**: `Admin1234`
+> - **Rol**: `ADMIN` (requerido para `POST`, `PUT` y `DELETE`)
+
+### Estructura de Datos (`ArticulosDTO`)
 ```json
 {
-  "nombreArticulo": "Martillo",
-  "precio": 250.00,
-  "existencia": 15
+  "id": 1,
+  "nombreArticulo": "Martillo tubular de 16 oz",
+  "precio": 249.50,
+  "existencia": 12
 }
 ```
 
@@ -135,19 +128,19 @@ Base URL: `http://localhost:8080/api/articulos`
 ## Esquema de Base de Datos
 
 ### Tabla `articulos`
-
-| Columna         | Tipo     | Descripción            |
-|-----------------|----------|------------------------|
-| `id`            | BIGINT   | Clave primaria (autoincrement) |
-| `nombreArticulo`| VARCHAR  | Nombre del artículo    |
-| `precio`        | DOUBLE   | Precio                 |
-| `existencia`    | INT      | Cantidad en stock      |
+| Columna | Tipo de Dato | Restricciones / Descripción |
+|---|---|---|
+| `id` | `BIGINT` | Clave primaria, Auto-incremental |
+| `nombreArticulo` | `VARCHAR(255)` | Nombre o descripción del producto |
+| `precio` | `DOUBLE` | Precio unitario de venta |
+| `existencia` | `INT` | Unidades disponibles en inventario |
 
 ### Tabla `usuarios`
+| Columna | Tipo de Dato | Restricciones / Descripción |
+|---|---|---|
+| `id` | `BIGINT` | Clave primaria, Auto-incremental |
+| `usuario` | `VARCHAR(50)` | Nombre de usuario (único, not null) |
+| `password` | `VARCHAR(60)` | Contraseña cifrada en hash BCrypt |
+| `rol` | `VARCHAR(60)` | Rol asignado (`ADMIN`, `USER`) |
 
-| Columna   | Tipo     | Descripción                |
-|-----------|----------|----------------------------|
-| `id`      | BIGINT   | Clave primaria (autoincrement) |
-| `usuario` | VARCHAR(50) | Nombre de usuario (único) |
-| `password`| VARCHAR(60) | Hash BCrypt de la contraseña |
-| `rol`     | VARCHAR(60) | Rol del usuario (`ADMIN`, `USER`) |
+
