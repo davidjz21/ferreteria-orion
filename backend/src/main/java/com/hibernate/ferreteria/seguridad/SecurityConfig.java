@@ -1,12 +1,9 @@
 package com.hibernate.ferreteria.seguridad;
 
-import com.hibernate.ferreteria.servicios.UsuarioServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,61 +18,44 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final UsuarioServices userServices;
-
-    public SecurityConfig(UsuarioServices userServices) {
-        this.userServices = userServices;
-    }
 
     // Encriptador de contraseñas BCrypt
     @Bean
-    public PasswordEncoder codificaPass() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Administrador de autenticacion de Spring
+    /*
+     * SecurityFilterChain: define que filtros y reglas de seguridad se ejecutan
+     * HttpSecurity http: permite configurar esas reglas
+     * throws Exception: indica que el método puede propagar excepciones comprobadas
+     */
     @Bean
-    public AuthenticationManager autenticacion(AuthenticationConfiguration authConfig)
-            throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-    // Cadena de filtros de seguridad HTTP
-    @Bean
-    public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
-        http
-                // Habilita CORS para permitir peticiones desde React (puerto 5173)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
                 .cors(Customizer.withDefaults())
-
-                // Desactiva CSRF (no necesario en APIs REST stateless)
                 .csrf(csrf -> csrf.disable())
-
-                // Reglas de autorización por endpoint y metodo HTTP
                 .authorizeHttpRequests(auth -> auth
-                        // Cualquiera (incluso sin login) puede consultar los articulos
+                        // Verificacion de credenciales de admin
+                        .requestMatchers("/api/articulos/auth/verificar").hasRole("ADMIN")
+                        // Consulta publica de articulos en solo lectura
                         .requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll()
-
-                        // Solo usuarios con rol ADMIN pueden CREAR, EDITAR o ELIMINAR articulos
-                        .requestMatchers(HttpMethod.POST, "/api/articulos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/articulos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/articulos/**").hasRole("ADMIN")
-
+                        // Modificaciones de catalogo requieren rol ADMIN
+                        .requestMatchers("/api/articulos/**").hasRole("ADMIN")
                         // Cualquier otra peticion debe estar autenticada
                         .anyRequest().authenticated())
-
-                // Habilita autenticacion HTTP Basic
-                .httpBasic(Customizer.withDefaults());
-
-        return http.build();
+                // Con HTTP Basic React puede enviar las credenciales en la peticion
+                .httpBasic(Customizer.withDefaults())
+                .build();
     }
 
-    // Configuracion CORS para que el navegador no bloquee a React
+    // Configuracion de origenes permitidos para clientes de frontend
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // URL de Vite
+        config.setAllowedOriginPatterns(List.of("http://localhost:*", "http://127.0.0.1:*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

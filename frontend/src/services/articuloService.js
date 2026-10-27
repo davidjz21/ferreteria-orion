@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:8080/api/articulos"
+const API_URL = "http://localhost:8080/api/articulos";
 
-// Funciones para gestionar la sesión en el navegador                                               
+// Manejo de credenciales en localStorage                                                           
 export const guardarSesion = (usuario, password) => {
     const credencialBase64 = btoa(`${usuario}:${password}`);
     localStorage.setItem("orion_auth", credencialBase64);
@@ -16,21 +16,16 @@ export const cerrarSesion = () => {
     localStorage.removeItem("orion_usuario");
 };
 
-// Genera la cabecera Authorization si hay una sesion activa                                        
+// Cabecera Basic Auth                                                                              
 const getAuthHeaders = () => {
     const token = localStorage.getItem("orion_auth");
     return token ? { "Authorization": `Basic ${token}` } : {};
 };
 
+// Peticiones a la API REST de Spring Boot                                                          
 export const getArticulos = async () => {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error("Error al obtener artículos");
-    return res.json();
-};
-
-export const getArticuloById = async (id) => {
-    const res = await fetch(`${API_URL}/${id}`);
-    if (!res.ok) throw new Error("Artículo no encontrado");
     return res.json();
 };
 
@@ -43,9 +38,6 @@ export const createArticulo = async (articulo) => {
         },
         body: JSON.stringify(articulo)
     });
-    if (res.status === 401 || res.status === 403) {
-        throw new Error("No tienes permisos de Administrador para crear productos");
-    }
     if (!res.ok) throw new Error("Error al crear artículo");
     return res.json();
 };
@@ -59,9 +51,6 @@ export const updateArticulo = async (id, articulo) => {
         },
         body: JSON.stringify(articulo)
     });
-    if (res.status === 401 || res.status === 403) {
-        throw new Error("No tienes permisos de Administrador para editar");
-    }
     if (!res.ok) throw new Error("Error al actualizar artículo");
     return res.json();
 };
@@ -73,9 +62,22 @@ export const deleteArticulo = async (id) => {
             ...getAuthHeaders()
         }
     });
-    if (res.status === 401 || res.status === 403) {
-        throw new Error("No tienes permisos de Administrador para eliminar");
-    }
     if (!res.ok) throw new Error("Error al eliminar artículo");
     return res.text();
-}; 
+};
+
+// Verificar credenciales del administrador                                                         
+export const verificarCredenciales = async (usuario, password) => {
+    const credencialBase64 = btoa(`${usuario}:${password}`);
+    const res = await fetch(`${API_URL}/auth/verificar`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Basic ${credencialBase64}`
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("Usuario o contraseña incorrectos");
+    }
+    return res.json();
+};

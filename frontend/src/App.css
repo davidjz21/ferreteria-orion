@@ -39,7 +39,8 @@
   transition: all 0.2s ease-in-out;
 }
 
-.btn-orion:hover, .btn-orion:focus {
+.btn-orion:hover,
+.btn-orion:focus {
   background-color: var(--orion-orange-hover);
   border-color: var(--orion-orange-hover);
   color: #ffffff;
@@ -109,7 +110,8 @@
   border-radius: 20px;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: var(--orion-orange);
   box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.2);
 }
@@ -119,4 +121,14 @@
   color: #ffffff;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+}
+
+.navbar-orion .nav-link.active-tab {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.navbar-orion .nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1);
 }

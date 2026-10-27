@@ -13,7 +13,8 @@ public class ArticulosDTO {
         this.existencia = existencia;
     }
 
-    public ArticulosDTO() {}
+    public ArticulosDTO() {
+    }
 
     public Long getId() {
         return id;

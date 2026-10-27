@@ -13,17 +13,21 @@ import java.util.List;
 
 @Service
 public class UsuarioServices implements UserDetailsService {
-    @Autowired
-    private Repo_usuarios repoUsuarios;
 
-    @Override
-    public UserDetails loadUserByUsername(String nombreUsuario)
-                throws UsernameNotFoundException {
-            var usuario = repoUsuarios.findByUsuario(nombreUsuario)
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado " + nombreUsuario));
-            return new User(
-                    usuario.getUsuario(),
-                    usuario.getPassword(),
-                    List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol())));
-    }
+        @Autowired // inyecta el repositorio para consultar la base de datos
+        private Repo_usuarios repoUsuarios;
+
+        @Override
+        public UserDetails loadUserByUsername(String nombreUsuario)
+                        throws UsernameNotFoundException {
+                var usuario = repoUsuarios
+                                .findByUsuario(nombreUsuario)
+                                .orElseThrow(() -> new UsernameNotFoundException(
+                                                "Usuario no encontrado " + nombreUsuario));
+                return new User(
+                                usuario.getUsuario(),
+                                usuario.getPassword(),
+                                // Puede tener varios roles por ello se usa lista
+                                List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol())));
+        }
 }

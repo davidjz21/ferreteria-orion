@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Package, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Pencil, Trash2, Package, AlertTriangle } from 'lucide-react';
 
 export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin }) {
   if (!articulos || articulos.length === 0) {
@@ -7,7 +7,7 @@ export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin
         <Package size={48} className="text-muted mb-3 opacity-50" />
         <h5 className="text-secondary fw-semibold">No se encontraron productos</h5>
         <p className="text-muted small mb-0">
-          {esAdmin ? 'Agrega un nuevo artículo usando el botón superior.' : 'Catálogo temporalmente vacío.'}
+          {esAdmin ? 'Agrega un nuevo artículo usando el botón superior.' : 'Catálogo vacío.'}
         </p>
       </div>
     );
@@ -40,8 +40,9 @@ export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin
                   </span>
                 </td>
                 <td>
+                  {/* Formato de moneda 2 decimales */}
                   <span className="fw-bold text-dark fs-6">
-                    ${Number(art.precio).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ${Number(art.precio).toFixed(2)}
                   </span>
                 </td>
                 <td>
@@ -60,7 +61,7 @@ export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin
                         onClick={() => onEditar(art)}
                       >
                         <Pencil size={14} />
-                        Editar
+                        <span>Editar</span>
                       </button>
                       <button
                         type="button"
@@ -69,13 +70,11 @@ export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin
                         onClick={() => onEliminar(art.id)}
                       >
                         <Trash2 size={14} />
-                        Eliminar
+                        <span>Eliminar</span>
                       </button>
                     </div>
                   ) : (
-                    <span className="text-muted small fst-italic">
-                      Solo consulta
-                    </span>
+                    <span className="text-muted small fst-italic">Solo consulta</span>
                   )}
                 </td>
               </tr>
@@ -85,4 +84,4 @@ export default function ArticuloTabla({ articulos, onEditar, onEliminar, esAdmin
       </table>
     </div>
   );
-}  
+}

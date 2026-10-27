@@ -23,19 +23,4 @@ public class Articulos {
 
     @Column(name = "existencia")
     private Integer existencia;
-
-    /*
-     * metodo por consola
-     * 
-     * @Override
-     * public String toString() {
-     * return "Articulo{"+
-     * "id = " + id +
-     * ", Nombrearticulo: '" + nombreArticulo + '\''+
-     * ", precio: " + precio +
-     * ", existencia: "+ existencia +
-     * '}';
-     * 
-     * }
-     */
 }
